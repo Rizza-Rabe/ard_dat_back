@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div class="container">
+      <div style="
+        font-size: 25px; 
+        text-align: 
+        center; padding: 20px;
+        background-color: #d1ffd3;
+        border-radius: 8px;
+        color: rgb(0, 0, 0);
+        width: 300px;
+        " id="user_ip_address">
+        System Configuration
+    </div>  
+    </div>
+    
+    <dialog id="logInDialog" style="width: 600px; border: none; border-radius: 10px; background-color: #d6ffd8; backdrop-filter: blur(10px);">
+        <h2 style="text-align: center;">Log-In to Admin</h2>
+
+        <label for="userName">Username:</label>
+        <input 
+        type="text" 
+        id="userName" 
+        name="firstname" 
+        placeholder="Username"
+        style="width: 100%; padding: 12px 20px; margin: 8px 0; display: inline-block; border: 1px solid #ccc;border-radius: 4px; box-sizing: border-box;">
+
+        <div style="height: 20px;"></div>
+
+        <label for="userPassword">Password:</label>
+        <input 
+        type="password" 
+        id="userPassword" 
+        name="firstname" 
+        placeholder="Password"
+        style="width: 100%; padding: 12px 20px; margin: 8px 0; display: inline-block; border: 1px solid #ccc;border-radius: 4px; box-sizing: border-box;">
+
+        <button id="logInUserButton"
+        style="background-color: #04AA6D; /* Green */
+        border: none;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        border-radius: 20px;
+        width: 100%;
+        cursor: pointer;"> Log In</button>
+    </dialog>
+
+    <script>
+
+        let userNameFromDevice = "";
+        let userPasswordFromDevice = "";
+
+        const dialog = document.getElementById('logInDialog');
+        const logInUserButton = document.getElementById("logInUserButton");
+        
+        // On Web Loaded
+        document.addEventListener("DOMContentLoaded", function() {
+            dialog.showModal();
+            getUserIpAddress();
+        });
+
+        logInUserButton.onclick = function(){
+            console.log("Log In Pressed");
+            logInUser();
+        };
+
+        function logInUser(){
+            const userName = document.getElementById("userName").value;
+            const userPassword = document.getElementById("userPassword").value;
+            if(userName == ""){
+                alert("User name is empty");
+                return;
+            }
+            if(userPassword == ""){
+                alert("Password is empty");
+                return;
+            }
+
+            if(userNameFromDevice != userName && userPasswordFromDevice != userPassword){
+                alert("Invalid Username and Password. Please check and try again.");
+                return;
+            }
+            console.log("User name: ", userName);
+            console.log("User password: ", userPassword);
+            dialog.close();
+        }
+
+
+        function getUserIpAddress(){
+            fetch('/info/ip')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("user_ip_address").innerText = "Your ip address is " + data;
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function getUserIpAddress(){
+            fetch('/adminInfo')
+                .then(response => response.text())
+                .then(data => {
+
+                    document.getElementById("user_ip_address").innerText = "Your ip address is " + data;
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+</html>

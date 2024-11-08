@@ -1,0 +1,5 @@
+LED
+CLK - D9
+DIO - D3
+GND - GND
+5V - 5V
